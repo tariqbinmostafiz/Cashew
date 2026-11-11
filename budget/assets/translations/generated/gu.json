@@ -1180,5 +1180,8 @@
   "import-warning": "આયાત ચેતવણી",
   "import-warning-description": "આયાત નિષ્ફળ થઈ શકે છે! કૃપા કરીને ખાતરી કરો કે તમે માન્ય કાજુ [.sqlite] અથવા [.sql] બેકઅપ ફાઇલ પસંદ કરી છે.",
   "duplicate-budget-question": "ડુપ્લિકેટ બજેટ?",
-  "duplicate-budget": "ડુપ્લિકેટ બજેટ"
+  "duplicate-budget": "ડુપ્લિકેટ બજેટ",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

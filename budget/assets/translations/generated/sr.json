@@ -1180,5 +1180,8 @@
   "import-warning": "Упозорење о увозу",
   "import-warning-description": "Увоз можда неће успети! Уверите се да сте изабрали важећу датотеку резервне копије Цасхев [.склите] или [.скл]",
   "duplicate-budget-question": "Дупликат буџета?",
-  "duplicate-budget": "Дупликат буџета"
+  "duplicate-budget": "Дупликат буџета",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

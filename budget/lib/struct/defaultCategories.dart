@@ -1,9 +1,17 @@
 import 'package:budget/colors.dart';
 import 'package:budget/database/tables.dart';
+import 'package:budget/farm/farmCategories.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+// Dairy build: fresh installs get the dairy category set.
 List<TransactionCategory> defaultCategories() {
+  return dairyCategories();
+}
+
+// The original Cashew finance categories (unused in the dairy build, kept
+// for reference so nothing else that may reference them breaks).
+List<TransactionCategory> defaultCategoriesLegacyFinance() {
   return [
     // Note "0" categoryPk is reserved for wallet/account total correction category
     TransactionCategory(

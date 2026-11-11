@@ -1180,5 +1180,8 @@
   "import-warning": "אזהרת ייבוא",
   "import-warning-description": "הייבוא ​​עלול להיכשל! אנא ודא שבחרת בקובץ גיבוי קשיו [.sqlite] או [.sql] חוקי",
   "duplicate-budget-question": "לשכפל תקציב?",
-  "duplicate-budget": "שכפול תקציב"
+  "duplicate-budget": "שכפול תקציב",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

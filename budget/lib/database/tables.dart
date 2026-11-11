@@ -1,4 +1,5 @@
 import 'package:budget/functions.dart';
+import 'package:budget/farm/farmTables.dart';
 import 'package:budget/pages/addBudgetPage.dart';
 import 'package:budget/pages/homePage/homePageLineGraph.dart';
 import 'package:budget/pages/objectivesListPage.dart';
@@ -23,7 +24,7 @@ import 'package:budget/pages/activityPage.dart';
 import 'package:flutter/material.dart' show RangeValues;
 part 'tables.g.dart';
 
-int schemaVersionGlobal = 46;
+int schemaVersionGlobal = 47;
 
 // To update and migrate the database, check the README
 
@@ -686,6 +687,13 @@ class CategoryWithTotal {
   ScannerTemplates,
   DeleteLogs,
   Objectives,
+  // Dairy farm tables (schema v47+)
+  Animals,
+  Customers,
+  MilkRecords,
+  MilkSales,
+  CustomerPayments,
+  MilkUsageLogs,
 ])
 class FinanceDatabase extends _$FinanceDatabase {
   // FinanceDatabase() : super(_openConnection());
@@ -861,9 +869,12 @@ class FinanceDatabase extends _$FinanceDatabase {
           await migrator.alterTable(TableMigration(transactions));
           await migrator.deleteTable("Labels");
         }
+        // The generated migrationSteps() (schema_versions.dart) only knows
+        // versions up to 46. Versions >= 47 (dairy tables) are handled below
+        // with plain createTable calls, so no generated file is hand-edited.
         await migrator.runMigrationSteps(
           from: from,
-          to: to,
+          to: to > 46 ? 46 : to,
           steps: migrationSteps(
             from33To34: (m, schema) async {
               await m.addColumn(schema.wallets, schema.wallets.decimals);
@@ -1164,6 +1175,20 @@ class FinanceDatabase extends _$FinanceDatabase {
             },
           ),
         );
+
+        // ---- Dairy farm tables (schema v47) ----
+        // createTable issues CREATE TABLE IF NOT EXISTS, so this is safe to
+        // run more than once. Errors are intentionally NOT swallowed: a failed
+        // migration must be visible (a pre-migration copy of db.sqlite is kept
+        // by constructDb in platform/native.dart).
+        if (from < 47) {
+          await migrator.createTable($AnimalsTable(this));
+          await migrator.createTable($CustomersTable(this));
+          await migrator.createTable($MilkRecordsTable(this));
+          await migrator.createTable($MilkSalesTable(this));
+          await migrator.createTable($CustomerPaymentsTable(this));
+          await migrator.createTable($MilkUsageLogsTable(this));
+        }
       },
       beforeOpen: (details) async {
         // This code exists because migration 42to43 may have not run correctly...

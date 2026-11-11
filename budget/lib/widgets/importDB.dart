@@ -1,4 +1,6 @@
 import 'package:budget/database/tables.dart';
+import 'package:budget/farm/backupValidation.dart';
+import 'package:budget/farm/farmStrings.dart';
 import 'package:budget/functions.dart';
 import 'package:budget/struct/settings.dart';
 import 'package:budget/widgets/globalSnackbar.dart';
@@ -37,14 +39,28 @@ Future<String?> importDBFileFromDevice(BuildContext context) async {
     ));
   }
 
+  Uint8List fileBytes;
   if (kIsWeb) {
-    Uint8List fileBytes = result.files.single.bytes!;
-    await overwriteDefaultDB(fileBytes);
+    fileBytes = result.files.single.bytes!;
   } else {
     File file = File(result.files.single.path ?? "");
-    Uint8List fileBytes = await file.readAsBytes();
-    await overwriteDefaultDB(fileBytes);
+    fileBytes = await file.readAsBytes();
   }
+  // Validate BEFORE touching the live database
+  String? backupProblem =
+      validateSqliteBackupBytes(fileBytes, schemaVersionGlobal);
+  if (backupProblem != null) {
+    openSnackbar(SnackbarMessage(
+      title: "error-importing".tr(),
+      description: ft(context, "backup-err-" + backupProblem),
+      icon: appStateSettings["outlinedIcons"]
+          ? Icons.warning_outlined
+          : Icons.warning_rounded,
+      timeout: Duration(seconds: 8),
+    ));
+    return null;
+  }
+  await overwriteDefaultDB(fileBytes);
   await resetLanguageToSystem(context);
   await updateSettings("databaseJustImported", true,
       pagesNeedingRefresh: [], updateGlobalState: false);

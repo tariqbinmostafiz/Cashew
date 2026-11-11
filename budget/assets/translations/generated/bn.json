@@ -1180,5 +1180,8 @@
   "import-warning": "আমদানি সতর্কতা",
   "import-warning-description": "আমদানি ব্যর্থ হতে পারে! আপনি একটি বৈধ কাজু [.sqlite] বা [.sql] ব্যাকআপ ফাইল নির্বাচন করেছেন তা নিশ্চিত করুন",
   "duplicate-budget-question": "ডুপ্লিকেট বাজেট?",
-  "duplicate-budget": "ডুপ্লিকেট বাজেট"
+  "duplicate-budget": "ডুপ্লিকেট বাজেট",
+  "nav-milk": "দুধ",
+  "nav-sales": "বিক্রি",
+  "nav-animals": "পশু"
 }

@@ -18,10 +18,10 @@
   "categories-set-based-title": "类别也会根据关联的标题自动设置。",
   "subject": "主题：",
   "messages-containing-text-checked": "所有包含此文本的消息都将被检查。",
-  "amount": "金额：",
+  "amount": "数量",
   "selected-amount-surrounding-text": "从此消息中选择的金额。周围的文本将用于在新消息中找到此金额。",
   "select-valid-number": "请选择有效的数字！",
-  "title": "标题：",
+  "title": "标题",
   "selected-title-surrounding-text": "从此消息中选择的标题。周围的文本将用于在新消息中找到此标题。",
   "sample": "示例",
   "select-subject-text": "选择主题文本",
@@ -519,8 +519,6 @@
   "settings-and-customization-description": "主题、语言、导入/导出 CSV",
   "assign-columns": "分配列",
   "date": "日期",
-  "amount": "数量",
-  "title": "标题",
   "note": "备注",
   "account": "账户",
   "date-format": "日期格式",
@@ -1257,6 +1255,8 @@
   "duplicate-budget": "重复预算",
   "monthly-expense": "月度支出",
   "currency-label": "货币标签",
-  "currency-label-description": "在钱包名称旁显示货币代码"
+  "currency-label-description": "在钱包名称旁显示货币代码",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }
-

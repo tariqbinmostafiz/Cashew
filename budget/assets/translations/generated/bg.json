@@ -1180,5 +1180,8 @@
   "import-warning": "Предупреждение за импортиране",
   "import-warning-description": "Импортирането може да се провали! Моля, уверете се, че сте избрали валиден архивен файл за кашу [.sqlite] или [.sql]",
   "duplicate-budget-question": "Дублиран бюджет?",
-  "duplicate-budget": "Дублиран бюджет"
+  "duplicate-budget": "Дублиран бюджет",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

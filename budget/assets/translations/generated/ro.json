@@ -1180,5 +1180,8 @@
   "import-warning": "Avertisment de import",
   "import-warning-description": "Importul poate eșua! Vă rugăm să vă asigurați că ați selectat un fișier de rezervă pentru caju [.sqlite] sau [.sql] valid",
   "duplicate-budget-question": "Buget duplicat?",
-  "duplicate-budget": "Buget duplicat"
+  "duplicate-budget": "Buget duplicat",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

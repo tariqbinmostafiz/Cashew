@@ -230,5 +230,8 @@
   "import-warning": "Предупредување за увоз",
   "import-warning-description": "Увозот може да не успее! Проверете дали сте избрале валидна резервна датотека Кашу [.sqlite] или [.sql]",
   "duplicate-budget-question": "Дупликат буџет?",
-  "duplicate-budget": "Дупликат буџет"
+  "duplicate-budget": "Дупликат буџет",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

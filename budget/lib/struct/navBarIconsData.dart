@@ -156,7 +156,33 @@ Map<String, NavBarIconData> getNavBarIconsData() {
           : Icons.savings_rounded,
       label: "goals",
       labelLong: "goals-details",
+      // was 18, which has no page; 15 is EditObjectivesPage(goal)
+      navigationIndexedStackIndex: 15,
+    ),
+    // ---- Dairy farm pages (appended; indexes 18-20 in pagesExtended) ----
+    "milk": NavBarIconData(
+      iconData: appStateSettings["outlinedIcons"]
+          ? Icons.water_drop_outlined
+          : Icons.water_drop_rounded,
+      label: "nav-milk",
+      labelLong: "nav-milk",
       navigationIndexedStackIndex: 18,
+    ),
+    "sales": NavBarIconData(
+      iconData: appStateSettings["outlinedIcons"]
+          ? Icons.point_of_sale_outlined
+          : Icons.point_of_sale_rounded,
+      label: "nav-sales",
+      labelLong: "nav-sales",
+      navigationIndexedStackIndex: 19,
+    ),
+    "animals": NavBarIconData(
+      iconData: appStateSettings["outlinedIcons"]
+          ? Icons.pets_outlined
+          : Icons.pets_rounded,
+      label: "nav-animals",
+      labelLong: "nav-animals",
+      navigationIndexedStackIndex: 20,
     ),
   };
 }

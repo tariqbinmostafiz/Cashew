@@ -10,6 +10,11 @@ import 'package:budget/pages/editObjectivesPage.dart';
 import 'package:budget/pages/homePage/homePageNetWorth.dart';
 import 'package:budget/pages/objectivesListPage.dart';
 import 'package:budget/pages/transactionsListPage.dart';
+import 'package:budget/farm/animalsPage.dart';
+import 'package:budget/farm/customersPage.dart';
+import 'package:budget/farm/farmReportsPage.dart';
+import 'package:budget/farm/farmStrings.dart';
+import 'package:budget/farm/milkPage.dart';
 import 'package:budget/pages/upcomingOverdueTransactionsPage.dart';
 import 'package:budget/struct/currencyFunctions.dart';
 import 'package:budget/struct/defaultPreferences.dart';
@@ -126,6 +131,60 @@ class MorePages extends StatelessWidget {
       padding: const EdgeInsetsDirectional.symmetric(horizontal: 4),
       child: Column(
         children: [
+          // ---- Dairy farm tools ----
+          Row(
+            children: [
+              Expanded(
+                child: SettingsContainerOpenPage(
+                  openPage: const AnimalsPage(),
+                  title: ft(context, 'animals'),
+                  icon: Icons.pets_rounded,
+                  isOutlined: true,
+                ),
+              ),
+              Expanded(
+                child: SettingsContainerOpenPage(
+                  openPage: const CustomersPage(),
+                  title: ft(context, 'customers'),
+                  icon: Icons.people_alt_rounded,
+                  isOutlined: true,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: SettingsContainerOpenPage(
+                  openPage: const MilkUsagePage(),
+                  title: ft(context, 'milk-usage'),
+                  icon: Icons.local_drink_rounded,
+                  isOutlined: true,
+                ),
+              ),
+              Expanded(
+                child: SettingsContainerOpenPage(
+                  openPage: const FarmReportsPage(),
+                  title: ft(context, 'reports'),
+                  icon: Icons.bar_chart_rounded,
+                  isOutlined: true,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: SettingsContainerOpenPage(
+                  openPage: const TransactionsListPage(),
+                  title: ft(context, 'accounts-transactions'),
+                  icon: Icons.payments_rounded,
+                  isOutlined: true,
+                  isWideOutlined: true,
+                ),
+              ),
+            ],
+          ),
           if (hasSideNavigation == false)
             Row(
               children: [

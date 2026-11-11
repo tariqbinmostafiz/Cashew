@@ -1180,5 +1180,8 @@
   "import-warning": "Importwaarschuwing",
   "import-warning-description": "Het importeren mislukt mogelijk! Zorg ervoor dat u een geldig Cashew-back-upbestand [.sqlite] of [.sql] hebt geselecteerd",
   "duplicate-budget-question": "Dubbele begroting?",
-  "duplicate-budget": "Dubbele begroting"
+  "duplicate-budget": "Dubbele begroting",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

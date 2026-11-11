@@ -1180,5 +1180,8 @@
   "import-warning": "Amaran Import",
   "import-warning-description": "Import mungkin gagal! Sila pastikan anda telah memilih fail sandaran Cashew [.sqlite] atau [.sql] yang sah",
   "duplicate-budget-question": "Belanjawan Pendua?",
-  "duplicate-budget": "Belanjawan Pendua"
+  "duplicate-budget": "Belanjawan Pendua",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

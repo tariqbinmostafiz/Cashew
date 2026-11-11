@@ -259,6 +259,18 @@ class NavigationSidebarState extends State<NavigationSidebar> {
                                 currentPageIndex: selectedIndex,
                               ),
                               NavigationSidebarButtonWithNavBarIconData(
+                                navBarIconDataKey: "milk",
+                                currentPageIndex: selectedIndex,
+                              ),
+                              NavigationSidebarButtonWithNavBarIconData(
+                                navBarIconDataKey: "sales",
+                                currentPageIndex: selectedIndex,
+                              ),
+                              NavigationSidebarButtonWithNavBarIconData(
+                                navBarIconDataKey: "animals",
+                                currentPageIndex: selectedIndex,
+                              ),
+                              NavigationSidebarButtonWithNavBarIconData(
                                 navBarIconDataKey: "transactions",
                                 currentPageIndex: selectedIndex,
                               ),

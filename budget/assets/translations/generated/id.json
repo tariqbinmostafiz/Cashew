@@ -1180,5 +1180,8 @@
   "import-warning": "Peringatan Impor",
   "import-warning-description": "Impor mungkin gagal! Pastikan Anda telah memilih file cadangan Mete [.sqlite] atau [.sql] yang valid",
   "duplicate-budget-question": "Anggaran Duplikat?",
-  "duplicate-budget": "Anggaran Duplikat"
+  "duplicate-budget": "Anggaran Duplikat",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

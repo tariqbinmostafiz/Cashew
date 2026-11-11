@@ -1180,5 +1180,8 @@
   "import-warning": "انتباہ درآمد کریں۔",
   "import-warning-description": "درآمد ناکام ہو سکتا ہے! براہ کرم یقینی بنائیں کہ آپ نے ایک درست کاجو [.sqlite] یا [.sql] بیک اپ فائل کا انتخاب کیا ہے۔",
   "duplicate-budget-question": "ڈپلیکیٹ بجٹ؟",
-  "duplicate-budget": "ڈپلیکیٹ بجٹ"
+  "duplicate-budget": "ڈپلیکیٹ بجٹ",
+  "nav-milk": "Milk",
+  "nav-sales": "Sales",
+  "nav-animals": "Animals"
 }

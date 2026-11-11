@@ -60,6 +60,10 @@ import 'package:budget/widgets/transactionEntry/transactionEntry.dart';
 import 'package:budget/widgets/transactionEntry/transactionLabel.dart';
 import 'package:budget/widgets/util/checkWidgetLaunch.dart';
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
+import 'package:budget/farm/animalsPage.dart';
+import 'package:budget/farm/farmCategories.dart';
+import 'package:budget/farm/milkPage.dart';
+import 'package:budget/farm/salesPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -339,6 +343,9 @@ class PageNavigationFrameworkState extends State<PageNavigationFramework> {
         key: upcomingOverdueTransactionsStateKey,
         overdueTransactions: null), //16
     CreditDebtTransactions(key: creditDebtTransactionsKey, isCredit: null), //17
+    MilkPage(), //18 (dairy)
+    SalesPage(), //19 (dairy)
+    AnimalsPage(backButton: false), //20 (dairy)
   ];
 
   late int currentPage = widget.widthSideNavigationBar <= 0
@@ -387,6 +394,7 @@ class PageNavigationFrameworkState extends State<PageNavigationFramework> {
 
 
       await initializeDefaultDatabase();
+      await initializeFarmData();
       runNotificationPayLoads(context);
       runQuickActionsPayLoads(context);
       initializeLocalizedMonthNames();
