@@ -1,12 +1,12 @@
-name: Build Signed Android APK (v7a & v8a)
+name: Build Signed DairyBook APK (arm64 and armv7)
 
 on:
-  workflow_dispatch:  # 手动触发
+  workflow_dispatch:
     inputs:
       reason:
-        description: '构建原因'
+        description: 'Build reason'
         required: false
-        default: '手动构建签名APK'
+        default: 'Manual signed APK build'
 
 jobs:
   build:
@@ -52,35 +52,25 @@ jobs:
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          # 创建必要的目录，使用更安全的方式
           mkdir -p "${{ github.workspace }}/budget/android/app"
-          
-          # 检查KEYSTORE_BASE64是否存在
+
           if [ -z "$KEYSTORE_BASE64" ]; then
-            echo "Error: KEYSTORE_BASE64 is not set or is empty"
+            echo "ERROR: secret KEYSTORE_BASE64 is empty or not set in THIS repository."
             exit 1
           fi
-          
-          # 显示编码长度（用于调试）
           echo "Keystore base64 length: ${#KEYSTORE_BASE64}"
-          
-          # 使用兼容的base64解码命令
-          echo "$KEYSTORE_BASE64" | base64 -d 2>/dev/null > "$KEYSTORE_PATH" || {
-            echo "Error: Base64 decoding failed, trying with alternative command"
-            echo "$KEYSTORE_BASE64" | base64 --decode --ignore-garbage > "$KEYSTORE_PATH"
+
+          # tr removes any line breaks / spaces / CR that may have been saved with the secret
+          printf '%s' "$KEYSTORE_BASE64" | tr -d '\n\r ' | base64 -d > "$KEYSTORE_PATH" || {
+            echo "ERROR: KEYSTORE_BASE64 is not valid base64. Re-create the secret with: base64 -w 0 key.jks"
+            exit 1
           }
-          
-          # 验证文件是否创建成功
-          if [ -f "$KEYSTORE_PATH" ]; then
-            echo "Keystore file created successfully"
-            ls -la "$KEYSTORE_PATH"
-            # 添加额外的调试信息
-            echo "Keystore directory content:"
-            ls -la "${{ github.workspace }}/budget/android/app/"
-          else
-            echo "Error: Failed to create keystore file"
+
+          if [ ! -s "$KEYSTORE_PATH" ]; then
+            echo "ERROR: keystore file is empty after decoding"
             exit 1
           fi
+          echo "Keystore file created: $(stat -c %s "$KEYSTORE_PATH") bytes"
 
       - name: Create key.properties file
         env:
@@ -88,29 +78,55 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         run: |
-          echo "storePassword=$STORE_PASSWORD" > $KEY_PROPERTIES_PATH
-          echo "keyPassword=$KEY_PASSWORD" >> $KEY_PROPERTIES_PATH
-          echo "keyAlias=$KEY_ALIAS" >> $KEY_PROPERTIES_PATH
-          echo "storeFile=key.jks" >> $KEY_PROPERTIES_PATH
+          for v in KEY_ALIAS KEY_PASSWORD STORE_PASSWORD; do
+            if [ -z "${!v}" ]; then
+              echo "ERROR: secret $v is empty or not set in THIS repository."
+              exit 1
+            fi
+          done
+          # printf keeps special characters ($ # spaces) in passwords intact
+          printf 'storePassword=%s\n' "$STORE_PASSWORD" > "$KEY_PROPERTIES_PATH"
+          printf 'keyPassword=%s\n' "$KEY_PASSWORD" >> "$KEY_PROPERTIES_PATH"
+          printf 'keyAlias=%s\n' "$KEY_ALIAS" >> "$KEY_PROPERTIES_PATH"
+          printf 'storeFile=key.jks\n' >> "$KEY_PROPERTIES_PATH"
+
+      - name: Check keystore, password and alias (fails early with a clear message)
+        env:
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+        run: |
+          if keytool -list -keystore "$KEYSTORE_PATH" -storepass "$STORE_PASSWORD" > /tmp/ks.txt 2>&1; then
+            echo "Keystore opened OK (store password is correct)."
+            grep -c "PrivateKeyEntry" /tmp/ks.txt | sed 's/^/PrivateKeyEntry count: /'
+          else
+            echo "ERROR: cannot open keystore. STORE_PASSWORD is wrong, or the file is damaged."
+            exit 1
+          fi
+          if keytool -list -keystore "$KEYSTORE_PATH" -storepass "$STORE_PASSWORD" -alias "$KEY_ALIAS" > /dev/null 2>&1; then
+            echo "Alias found."
+          else
+            echo "ERROR: KEY_ALIAS does not match any alias in the keystore (it is case-sensitive)."
+            echo "Aliases present:"
+            grep -E ", [A-Za-z]{3} [0-9]{1,2}, [0-9]{4}, " /tmp/ks.txt | cut -d, -f1 || true
+            exit 1
+          fi
 
       - name: Build Signed Release APK for arm64-v8a
         run: |
           cd budget
           flutter build apk --release --target-platform android-arm64 --split-per-abi
-          # 重命名以便区分
-          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk build/app/outputs/flutter-apk/cashew-arm64-v8a-release.apk
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk build/app/outputs/flutter-apk/dairybook-arm64-v8a-release.apk
 
       - name: Build Signed Release APK for armeabi-v7a
         run: |
           cd budget
           flutter build apk --release --target-platform android-arm --split-per-abi
-          # 重命名以便区分
-          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk build/app/outputs/flutter-apk/cashew-armeabi-v7a-release.apk
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk build/app/outputs/flutter-apk/dairybook-armeabi-v7a-release.apk
 
       - name: Verify APK signatures
         run: |
           cd budget
-          for apk_file in build/app/outputs/flutter-apk/cashew-*.apk; do
+          for apk_file in build/app/outputs/flutter-apk/dairybook-*.apk; do
             echo "Verifying $apk_file"
             jarsigner -verify -verbose -certs "$apk_file" || echo "Warning: Verification failed for $apk_file, but continuing anyway"
           done
@@ -118,13 +134,12 @@ jobs:
       - name: Upload Release APKs
         uses: actions/upload-artifact@v4
         with:
-          name: cashew-signed-architecture-specific-apks
-          path: budget/build/app/outputs/flutter-apk/cashew-*.apk
+          name: dairybook-signed-apks
+          path: budget/build/app/outputs/flutter-apk/dairybook-*.apk
           retention-days: 30
 
       - name: Clean up sensitive files
         if: always()
         run: |
-          # 删除密钥库文件和属性文件
           rm -f "$KEYSTORE_PATH" "$KEY_PROPERTIES_PATH"
           echo "Sensitive files cleaned up"
