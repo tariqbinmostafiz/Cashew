@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:budget/colors.dart';
+import 'package:budget/database/tables.dart';
 import 'package:budget/farm/animalsPage.dart';
 import 'package:budget/farm/farmReportsPage.dart';
 import 'package:budget/farm/farmRepo.dart';

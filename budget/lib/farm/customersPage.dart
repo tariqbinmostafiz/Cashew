@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:budget/colors.dart';
+import 'package:budget/database/tables.dart';
 import 'package:budget/farm/farmRepo.dart';
 import 'package:budget/farm/farmStrings.dart';
 import 'package:budget/farm/farmTables.dart';
